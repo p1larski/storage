@@ -23,9 +23,13 @@ public class ArticleController {
 
     @PostMapping("/article/new")
     public String addNewArticleToBase(@RequestBody Article article){
-        articleService.addNewArticleToBase(article);
-        return "Successfully added new article to database";
+        if (articleService.addNewArticleToBase(article)){
+            return "Successfully added new article to database";
+        } else {
+            return "This article exist in database";
+        }
     }
+
     @GetMapping("/articles")
     public List<Article> showAllProducts(){
         return articleService.showAllArticles();

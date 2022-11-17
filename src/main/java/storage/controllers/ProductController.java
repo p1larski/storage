@@ -1,10 +1,7 @@
 package storage.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import storage.models.Product;
 import storage.services.ProductService;
 
@@ -17,13 +14,19 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/product/new")
-    public String addNewProduct(@RequestBody Product product){
-        productService.addNewProduct(product);
-        return "successfully added product";
+    public String addNewProduct(@RequestBody Product product) throws Exception{
+        if (productService.addNewProduct(product) == true){
+            return "successfully added product";
+        }
+        return "Choose type of article and try again";
     }
 
     @GetMapping("/products")
     public List<Product> showAllProducts(){
         return productService.showAllProducts();
+    }
+    @GetMapping("/products/{article}")
+    public List<Product> showAllProductsByArticleName(@PathVariable String article){
+        return productService.findAllByArticleName(article);
     }
 }
