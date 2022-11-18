@@ -31,7 +31,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public List<Article> showAllProducts(){
+    public List<Article> showAllArticles(){
         return articleService.showAllArticles();
     }
 }
