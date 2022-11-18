@@ -22,31 +22,14 @@ public class SecurityConfiguration {
     private final EmployeeService EmployeeService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    /*@Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("password")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .csrf((csrf)-> csrf.disable())
                 .authorizeRequests(auth-> {
                     auth.antMatchers("/employee/new").permitAll();
-                    auth.antMatchers("/admin").hasRole("ADMIN");
-                    auth.antMatchers("/*").hasRole("USER");
+                    auth.antMatchers("/admin").hasAuthority("ADMIN");
+                    auth.antMatchers("/*").hasAuthority("USER");
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();

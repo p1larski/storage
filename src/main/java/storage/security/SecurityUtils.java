@@ -10,7 +10,6 @@ public final class SecurityUtils {
     private SecurityUtils() {
     }
 
-
     public static String getUserName() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();

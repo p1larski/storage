@@ -11,8 +11,12 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    @Autowired
     private ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/product/new")
     public String addNewProduct(@RequestBody Product product) throws Exception{
@@ -26,6 +30,7 @@ public class ProductController {
     public List<Product> showAllProducts(){
         return productService.showAllProducts();
     }
+
     @GetMapping("/products/{article}")
     public List<Product> showAllProductsByArticleName(@PathVariable String article){
         return productService.findAllByArticleName(article);

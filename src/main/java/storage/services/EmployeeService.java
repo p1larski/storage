@@ -12,7 +12,7 @@ import storage.repositories.EmployeeRepository;
 @Service
 public class EmployeeService implements UserDetailsService {
 
-    private EmployeeRepository employeeRepository;
+    private static EmployeeRepository employeeRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -23,7 +23,7 @@ public class EmployeeService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) employeeRepository.findEmployeeByUsername(username);
+        return employeeRepository.findEmployeeByUsername(username);
     }
 
     public String newEmployee(Employee employee){
