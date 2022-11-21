@@ -2,11 +2,13 @@ package storage.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import storage.ModelDTOs.ProductDto;
 import storage.models.Article;
 import storage.models.Product;
 import storage.repositories.ArticleRepository;
 import storage.repositories.ProductRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +24,37 @@ public class ProductService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Product> showAllProducts (){
-        List<Product> allProducts = (List<Product>) productRepository.findAll();
-        return allProducts;
+    public ProductDto mapProductToProductDto(Product product){
+        if (product.getRelease() != null) {
+            ProductDto productDto = new ProductDto(
+                    product.getId(),
+                    product.getArticle().getName(),
+                    product.getArticle().getAmountOfArticlesInStorage(),
+                    product.getDelivery().getId(),
+                    product.getDelivery().getDateOfDelivery(),
+                    product.getDelivery().getResponsibleEmployee().getUsername(),
+                    product.getRelease().getDateOfRelease(),
+                    product.getRelease().getResponsibleEmployee().getUsername());
+            return productDto;
+        } else {
+            ProductDto productDto = new ProductDto(
+                    product.getId(),
+                    product.getArticle().getName(),
+                    product.getArticle().getAmountOfArticlesInStorage(),
+                    product.getDelivery().getId(),
+                    product.getDelivery().getDateOfDelivery(),
+                    product.getDelivery().getResponsibleEmployee().getUsername(),
+                    null,
+                    null);
+            return productDto;
+        }
+    }
+
+    public List<ProductDto> showAllProducts (){
+        List<ProductDto> listOfProductsDto = new ArrayList<>();
+        List<Product> allProductsList = (List<Product>) productRepository.findAll();
+        allProductsList.stream().forEach(product -> listOfProductsDto.add(mapProductToProductDto(product)));
+        return listOfProductsDto;
     }
 
     public boolean addNewProduct(Product product){
@@ -38,8 +68,15 @@ public class ProductService {
         return true;
     }
 
-    public List<Product> findAllByArticleName(String name){
+    public List<ProductDto> findAllByArticleName(String name){
         Optional<Article> article = articleRepository.getArticleByName(name);
-        return productRepository.findAllByArticle(article);
+        if (article.isPresent()) {
+            List<ProductDto> productDtoListByArticle = new ArrayList<>();
+            productRepository.findAllByArticle(article).stream().
+                    forEach(product -> productDtoListByArticle.add(mapProductToProductDto(product)));
+            return productDtoListByArticle;
+        } else {
+            return null;
+        }
     }
 }

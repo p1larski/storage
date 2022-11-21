@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import storage.ModelDTOs.DeliveryDto;
 import storage.models.Delivery;
 import storage.models.Product;
 import storage.services.DeliveryService;
@@ -35,7 +36,7 @@ public class DeliveryController {
     }
 
     @GetMapping("/delivery/all")
-    public List<Delivery> findAllDelivers(){
+    public List<DeliveryDto> findAllDelivers(){
         return deliveryService.findAllDelivers();
     }
 

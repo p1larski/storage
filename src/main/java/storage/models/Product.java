@@ -1,11 +1,7 @@
 package storage.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,7 +16,7 @@ public class Product{
     private LocalDate dateOfDelivery;
     private LocalDate dateOfRelease;
     @ManyToOne
-    private Storage storage;
+    private Release release;
     @ManyToOne(fetch = FetchType.EAGER)
     private Delivery delivery;
     @ManyToOne

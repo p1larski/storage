@@ -1,6 +1,8 @@
 package storage.services;
 
 import org.springframework.stereotype.Service;
+import storage.ModelDTOs.DeliveryDto;
+import storage.ModelDTOs.ProductDto;
 import storage.models.Delivery;
 import storage.models.Product;
 import storage.repositories.DeliveryRepository;
@@ -8,6 +10,7 @@ import storage.repositories.EmployeeRepository;
 import storage.security.SecurityUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +25,19 @@ public class DeliveryService {
         this.productService = productService;
         this.employeeRepository = employeeRepository;
     }
+
+    public DeliveryDto mapDeliveryToDeliveryDto(Delivery delivery){
+        DeliveryDto newDeliveryDto = new DeliveryDto();
+                newDeliveryDto.setId(delivery.getId());
+                newDeliveryDto.setDateOfDelivery(delivery.getDateOfDelivery());
+                newDeliveryDto.setAmountOfProductsInDelivery(delivery.getDeliveredProducts().stream().count());
+                List<ProductDto> productDtoListForAdd = new ArrayList<>();
+                delivery.getDeliveredProducts().stream().forEach(product ->
+                        productDtoListForAdd.add(productService.mapProductToProductDto(product)));
+                newDeliveryDto.setProductsInDelivery(productDtoListForAdd);
+                newDeliveryDto.setUsernameWhoReclaimed(delivery.getResponsibleEmployee().getUsername());
+            return newDeliveryDto;
+        }
 
     public boolean finishDelivery(List<Product> productsInDelivery){
         Delivery newDelivery = new Delivery();
@@ -42,7 +58,10 @@ public class DeliveryService {
         return true;
     }
 
-    public List<Delivery> findAllDelivers(){
-        return (List<Delivery>) deliveryRepository.findAll();
+    public List<DeliveryDto> findAllDelivers(){
+        List<DeliveryDto> allDeliversFinished = new ArrayList<>();
+                deliveryRepository.findAll().forEach(delivery -> allDeliversFinished.add(
+                mapDeliveryToDeliveryDto(delivery)));
+        return  allDeliversFinished;
     }
 }

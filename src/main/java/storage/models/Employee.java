@@ -37,6 +37,9 @@ public class Employee implements UserDetails {
     @OneToMany
     @JoinColumn(name = "delivery_id")
     private List<Delivery> finishedDelivers;
+    @OneToMany
+    @JoinColumn(name = "release_id")
+    private List<Release> finishedReleases;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
