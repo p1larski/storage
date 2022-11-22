@@ -39,22 +39,22 @@ public class DeliveryService {
             return newDeliveryDto;
         }
 
-    public boolean finishDelivery(List<Product> productsInDelivery){
+    public boolean finishDelivery(List<ProductDto> productsInDelivery){
         Delivery newDelivery = new Delivery();
         newDelivery.setDateOfDelivery(LocalDate.now());
-        newDelivery.setDeliveredProducts(productsInDelivery);
+        newDelivery.setDeliveredProducts(null);
         newDelivery.setAmountOfProductsInDelivery(productsInDelivery.stream().count());
         newDelivery.setResponsibleEmployee(employeeRepository.findEmployeeByUsername(SecurityUtils.getUserName()));
         deliveryRepository.save(newDelivery);
-        productsInDelivery.stream().forEach(product -> product.setDelivery(newDelivery));
-        productsInDelivery.stream().forEach(product -> product.setDateOfDelivery(newDelivery.getDateOfDelivery()));
-        productsInDelivery.stream().forEach(product -> {
-            try {
-                productService.addNewProduct(product);
-            } catch (NullPointerException e) {
-                throw new NullPointerException("There is no article of this type in database");
-            }
+        List<Product> productList = new ArrayList<>();
+        productsInDelivery.stream().forEach(productDto -> {
+            Product product = productService.addNewProduct(productDto);
+            product.setDelivery(newDelivery);
+            product.setDateOfDelivery(newDelivery.getDateOfDelivery());
+            productList.add(product);
         });
+        newDelivery.setDeliveredProducts(productList);
+        deliveryRepository.save(newDelivery);
         return true;
     }
 

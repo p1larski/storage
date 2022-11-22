@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <table class="table table-md table-bordered">
+        <tr style="text-align: center; vertical-align: middle">
+            <th scope="col">Numer id</th>
+            <th scope="col">Nazwa produktu</th>
+            <th scope="col">Liczba dostępnych</th>
+            <th scope="col">Numer dostawy</th>
+            <th scope="col">Data dostawy</th>
+            <th scope="col">Pracownik odbierający</th>
+            <th scope="col">Data wydania</th>
+            <th scope="col">Pracownik wydający</th>
+        </tr>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}">Numer id</td>
+            <td th:text="${product.articleName}">Nazwa produktu</td>
+            <td th:text="${product.numberOfProductInStorage}">Liczba dostępnych</td>
+            <td th:text="${product.deliveryIdentificationNumber}">Numer dostawy</td>
+            <td th:text="${product.dateOfDelivery}">Data dostawy</td>
+            <td th:text="${product.usernameWhoReceived}">Pracownik odbierający</td>
+            <td th:text="${product?.dateOfRelease}">Data wydania</td>
+            <td th:text="${product?.usernameWhoReleased}">Pracownik wydający</td>
+            <td>
+                <div>
+                        <a href="#">Szczegóły</a>
+                        <a href="#">Edytuj chodnik</a>
+                        <a href="#">Usuń chodnik</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

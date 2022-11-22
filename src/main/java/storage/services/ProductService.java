@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import storage.ModelDTOs.ProductDto;
 import storage.models.Article;
+import storage.models.Delivery;
 import storage.models.Product;
 import storage.repositories.ArticleRepository;
+import storage.repositories.DeliveryRepository;
 import storage.repositories.ProductRepository;
 
 import java.util.ArrayList;
@@ -17,11 +19,14 @@ public class ProductService {
 
     private ProductRepository productRepository;
     private ArticleRepository articleRepository;
+    private DeliveryRepository deliveryRepository;
+
 
     @Autowired
-    private ProductService(ProductRepository productRepository, ArticleRepository articleRepository){
+    public ProductService(ProductRepository productRepository, ArticleRepository articleRepository, DeliveryRepository deliveryRepository) {
         this.productRepository = productRepository;
         this.articleRepository = articleRepository;
+        this.deliveryRepository = deliveryRepository;
     }
 
     public ProductDto mapProductToProductDto(Product product){
@@ -57,15 +62,18 @@ public class ProductService {
         return listOfProductsDto;
     }
 
-    public boolean addNewProduct(Product product){
-        if(product.getArticle()==null){
-            return false;
+    public Product addNewProduct(ProductDto productDto){
+        Optional<Article> articleOptional = articleRepository.getArticleByName(productDto.getArticleName());
+        if(articleOptional.isPresent()) {
+            Article article = articleOptional.stream().findFirst().orElse(null);
+            Long amountOfArticles = article.getAmountOfArticlesInStorage();
+            article.setAmountOfArticlesInStorage(amountOfArticles + 1L);
+            Product product = new Product();
+            product.setArticle(article);
+            productRepository.save(product);
+            return product;
         }
-        Article article = articleRepository.getArticleById(product.getArticle().getId());
-        Long amountOfArticles = article.getAmountOfArticlesInStorage();
-        article.setAmountOfArticlesInStorage(amountOfArticles+1L);
-        productRepository.save(product);
-        return true;
+        return null;
     }
 
     public List<ProductDto> findAllByArticleName(String name){

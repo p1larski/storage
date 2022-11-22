@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import storage.ModelDTOs.ProductDto;
 import storage.models.Product;
-import storage.security.SecurityUtils;
 import storage.services.ProductService;
-
-import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class ProductController {
@@ -21,13 +19,11 @@ public class ProductController {
     }
 
     @PostMapping("/product/new")
-    public String addNewProduct(@RequestBody Product product) throws Exception{
-        if (productService.addNewProduct(product) == true){
+    public String addNewProduct(@RequestBody ProductDto productDto) throws Exception{
+        productService.addNewProduct(productDto);
             return "successfully added product";
-        }
-        return "Choose type of article and try again";
-    }
 
+    }
     @GetMapping("/products")
     public List<ProductDto> showAllProducts(){
         return productService.showAllProducts();
