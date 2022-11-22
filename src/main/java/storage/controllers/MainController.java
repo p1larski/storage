@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import storage.models.Article;
 import storage.services.*;
 
 @Controller
@@ -39,5 +42,17 @@ public class MainController {
     public String allArticles(Model model){
         model.addAttribute("articles", articleService.showAllArticles());
         return "article";
+    }
+    @GetMapping
+    @RequestMapping(value = "/article/new")
+    public String addArticle(Model model){
+        model.addAttribute("article", new Article());
+        return "newArticle";
+    }
+    @PostMapping
+    @RequestMapping(value = "/article/save")
+    public String saveArticle(@ModelAttribute Article article){
+        articleService.addNewArticleToBase(article);
+        return "newArticle";
     }
 }
