@@ -42,7 +42,6 @@ public class DeliveryService {
     public boolean finishDelivery(List<ProductDto> productsInDelivery){
         Delivery newDelivery = new Delivery();
         newDelivery.setDateOfDelivery(LocalDate.now());
-        newDelivery.setDeliveredProducts(null);
         newDelivery.setAmountOfProductsInDelivery(productsInDelivery.stream().count());
         newDelivery.setResponsibleEmployee(employeeRepository.findEmployeeByUsername(SecurityUtils.getUserName()));
         deliveryRepository.save(newDelivery);

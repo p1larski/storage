@@ -5,10 +5,20 @@
     <title>Title</title>
 </head>
 <body>
+<center><b>
+    <li><a th:href="@{'/article/all'}"/>Wszystkie artykuły</a></li>
+    <li><a th:href="@{'/article/new'}"/>Nowy artykuł</a></li>
+    <li><a th:href="@{'/delivery/new'}"/>Nowa dostawa</a></li>
+    <li><a th:href="@{'/product/all'}"/>Wszystkie produkty</a></li>
+</b>
+</center>
+<center>
+    <h1>Wprowadź nazwę nowego produktu</h1>
 <form method="post" th:action="@{/article/save/}" th:object="${article}">
     <input placeholder="Enter name of product" required type="text" th:field="*{name}"/>
     </div>
     <input type="submit" value="Create article">
 </form>
+</center>
 </body>
 </html>

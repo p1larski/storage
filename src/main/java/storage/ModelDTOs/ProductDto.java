@@ -26,4 +26,8 @@ public class ProductDto {
         this.id = id;
         this.articleName = articleName;
     }
+
+    public ProductDto(String articleName) {
+        this.articleName=articleName;
+    }
 }

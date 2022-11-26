@@ -25,8 +25,9 @@ public class SecurityConfiguration {
                 .csrf((csrf) -> csrf.disable())
                 .authorizeRequests(auth -> {
                     auth.antMatchers("/login").permitAll();
+                    auth.antMatchers("/employee/new").permitAll();
                     auth.antMatchers("/admin").hasAuthority("ADMIN");
-                    auth.antMatchers("/*").hasAuthority("USER");
+                    auth.antMatchers("/*/*","/*").hasAuthority("USER");
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();

@@ -57,7 +57,7 @@ public class JExcelHelper {
             cell.setCellStyle(style);
                 }
 
-                    private void writeDataLines() {
+                private void writeDataLines() {
             int rowCount = 1;
 
             CellStyle style = workbook.createCellStyle();

@@ -41,7 +41,7 @@ public class ProductController {
         return productService.findAllByArticleName(article);
     }
 
-    @GetMapping("/users/export/excel")
+    @GetMapping("/products/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
             response.setContentType("application/octet-stream");
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -51,9 +51,9 @@ public class ProductController {
             String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
-            List<ProductDto> listUsers = productService.showAllProducts();
+            List<ProductDto> listProducts = productService.showAllProducts();
 
-            JExcelHelper excelExporter = new JExcelHelper(listUsers);
+            JExcelHelper excelExporter = new JExcelHelper(listProducts);
 
             excelExporter.export(response);
             }
