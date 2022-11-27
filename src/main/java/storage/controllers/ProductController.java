@@ -48,7 +48,7 @@ public class ProductController {
             String currentDateTime = dateFormatter.format(new Date());
 
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+            String headerValue = "attachment; filename=products_" + currentDateTime + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
             List<ProductDto> listProducts = productService.showAllProducts();

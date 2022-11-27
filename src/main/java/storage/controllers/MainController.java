@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import storage.ModelDTOs.ProductDto;
 import storage.models.Article;
 import storage.models.DeliveryWrapper;
+import storage.models.Employee;
 import storage.services.*;
 
 import java.util.ArrayList;
@@ -57,12 +58,31 @@ public class MainController {
         model.addAttribute("article", new Article());
         return "newArticle";
     }
+    @GetMapping
+    @RequestMapping(value = "/login")
+    public String loginPage(Model model){
+        return "login";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/employee/add")
+    public String mainPage(Model model){
+        model.addAttribute("employee", new Employee());
+        return "newEmployee";
+    }
+
+    @PostMapping
+    @RequestMapping(value = "/employee/save")
+    public String saveEmployee(@ModelAttribute Employee employee){
+        employeeService.newEmployee(employee);
+        return "redirect:/login";
+    }
 
     @PostMapping
     @RequestMapping(value = "/article/save")
     public String saveArticle(@ModelAttribute Article article){
         articleService.addNewArticleToBase(article);
-        return "newArticle";
+        return "redirect:/article/all";
     }
 
     @GetMapping
@@ -83,10 +103,11 @@ public class MainController {
         }
         List<ProductDto> productDtoList = new ArrayList<>();
         productsAmount.entrySet().forEach(stringProductDtoEntry -> {
+            if(stringProductDtoEntry.getKey()!=0 || stringProductDtoEntry != null){
             for (int a = stringProductDtoEntry.getKey(); a>0; a--){
                 productDtoList.add(stringProductDtoEntry.getValue());
             }
-        });
+        }});
         deliveryService.finishDelivery(productDtoList);
         return "redirect:/product/all";
     }

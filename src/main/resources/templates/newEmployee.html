@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+<center>
+  <b>
+    <li><a th:href="@{'/article/all'}"/>Wszystkie artykuły</a></li>
+    <li><a th:href="@{'/article/new'}"/>Nowy artykuł</a></li>
+    <li><a th:href="@{'/delivery/new'}"/>Nowa dostawa</a></li>
+    <li><a th:href="@{'/product/all'}"/>Wszystkie produkty</a></li>
+    <li><a th:href="@{'/logout'}"/>Wyloguj</a></li>
+  </b>
+</center>
+<center>
+  <h1>Wprowadź dane pracownika</h1>
+  <form method="post" th:action="@{/employee/save/}" th:object="${employee}">
+    <input placeholder="Enter name" required type="text" th:field="*{name}"/>
+    <br><input placeholder="Enter surname" required type="text" th:field="*{surname}"/>
+    <br><input placeholder="Enter phoneNumber" required type="text" th:field="*{phoneNumber}"/>
+    <br><input placeholder="Enter userName" required type="text" th:field="*{username}"/>
+    <br><input placeholder="Enter password" required type="password" th:field="*{password}"/>
+    <br><select id="role" name="role">
+    <option value="USER">USER</option>
+    <option value="ADMIN">ADMIN</option>
+  </select>
+    <!--<br><input placeholder="Enter role" required type="text" th:field="*{role}"/>-->
+    </div>
+    <br><input type="submit" value="Create article">
+  </form>
+</center>
+</body>
+</html>

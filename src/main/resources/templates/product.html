@@ -5,12 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<center><b>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+<center>
+    <b>
     <li><a th:href="@{'/article/all'}"/>Wszystkie artykuły</a></li>
     <li><a th:href="@{'/article/new'}"/>Nowy artykuł</a></li>
     <li><a th:href="@{'/delivery/new'}"/>Nowa dostawa</a></li>
     <li><a th:href="@{'/product/all'}"/>Wszystkie produkty</a></li>
-</b>
+    <li><a th:href="@{'/logout'}"/>Wyloguj</a></li>
+    </b>
 </center>
 <h1><a th:href="@{'/products/export/excel'}"/>Pobierz excel</a></h1>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
