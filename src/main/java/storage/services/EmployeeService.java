@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import storage.models.Employee;
 import storage.repositories.EmployeeRepository;
 
+import java.util.Optional;
+
 @Service
 public class EmployeeService implements UserDetailsService {
 
@@ -32,6 +34,10 @@ public class EmployeeService implements UserDetailsService {
         employee.setPassword(encodedPassword);
         employeeRepository.save(employee);
         return "New employee added successfully";
+    }
+
+    public Optional<Employee> findEmployeeByUserName(String username){
+        return Optional.ofNullable(employeeRepository.findEmployeeByUsername(username));
     }
 
     public String deleteEmployee(String name, String surname){

@@ -10,5 +10,4 @@ public class StorageApplication {
 		SpringApplication.run(StorageApplication.class, args);
 
 	}
-
-}
+	}

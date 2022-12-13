@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import storage.services.EmployeeService;
@@ -17,7 +20,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @AllArgsConstructor
 public class SecurityConfiguration {
 
-    private final EmployeeService EmployeeService;
+    private final EmployeeService employeeService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
@@ -44,10 +47,21 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public UserDetailsService userDetailsService() {
+            return new UserDetailsService() {
+                    @Override
+                public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                    return employeeService.findEmployeeByUserName(username).stream().findFirst().orElseThrow(
+                                    () -> new UsernameNotFoundException("User " + username + " not found"));
+                    }
+            };
+    }
+
+    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(EmployeeService);
+        provider.setUserDetailsService(employeeService);
         return provider;
     }
 }

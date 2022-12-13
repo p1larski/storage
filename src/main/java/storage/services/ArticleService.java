@@ -18,7 +18,7 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public boolean addNewArticleToBase (Article article){
+    public boolean addNewArticleToBase(Article article) {
         Optional<Article> articleOptional = articleRepository.getArticleByName(article.getName());
         if (!articleOptional.isPresent()) {
             article.setAmountOfArticlesInStorage(0L);

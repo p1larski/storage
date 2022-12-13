@@ -14,4 +14,11 @@ public class Article {
     private Long id;
     private String name;
     private Long amountOfArticlesInStorage;
+
+    public Article() {
+    }
+
+    public Article(String name) {
+        this.name = name;
+    }
 }
